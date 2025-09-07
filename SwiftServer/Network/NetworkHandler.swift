@@ -17,10 +17,6 @@ public class NetworkHandler: Identifiable, Hashable, Equatable {
         self.connection = connection
     }
     
-    deinit {
-        debug("NetworkHandler 被释放")
-    }
-    
     /// 发送一个数据包
     /// 若连接状态异常，会抛出 NetworkError.invalidConnectionState 错误
     /// - Parameter packet: 要发送的数据包
@@ -39,21 +35,34 @@ public class NetworkHandler: Identifiable, Hashable, Equatable {
     func receivePacket(_ packet: any Packet) {
         switch packet {
         case let packet as HandshakeC2SPacket: onHandshake(packet: packet)
+        case _ as StatusRequestC2SPacket: onStatusRequest()
+        case let packet as PingRequestC2SPacket: onPing(packet: packet)
         default:
             warn("\(packet.resourceLocation) 没有对应的处理逻辑，已忽略")
         }
     }
     
+    // MARK: - Handshake
     private func onHandshake(packet: HandshakeC2SPacket) {
-        log("接收到握手包 \(packet.protocolVersion)，next state: \(packet.nextState)")
+        debug("接收到握手包 \(packet.protocolVersion)，next state: \(packet.nextState)")
         switch packet.nextState {
         case 1:
             state = .status
-            Task {
-                try await self.sendPacket(StatusResponseS2CPacket(players: []))
-            }
         case 2: state = .login
         default: break
+        }
+    }
+    
+    // MARK: - Status
+    private func onStatusRequest() {
+        Task {
+            try await self.sendPacket(StatusResponseS2CPacket(players: []))
+        }
+    }
+    
+    private func onPing(packet: PingRequestC2SPacket) {
+        Task {
+            try await self.sendPacket(packet)
         }
     }
     

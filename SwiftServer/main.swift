@@ -30,7 +30,7 @@ public class SwiftServer {
                 case .ready:
                     handler.startReceive()
                 default:
-                    print(state)
+                    break
                 }
             }
         }

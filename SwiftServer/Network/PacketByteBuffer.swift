@@ -76,6 +76,17 @@ public class PacketByteBuffer {
         return writeBytes(data: bytes)
     }
     
+    public func readLong() -> Int64 {
+        return readBytesAsData(8).withUnsafeBytes { Int64(UInt64(bigEndian: $0.load(as: UInt64.self))) }
+    }
+    
+    @discardableResult
+    public func writeLong(_ value: Int64) -> PacketByteBuffer {
+        var value = UInt64(value).bigEndian
+        let bytes = withUnsafeBytes(of: &value) { Data($0) }
+        return writeBytes(data: bytes)
+    }
+    
     public func readShort() -> Int16 {
         let bytes = readBytes(2)
         let value = UInt16(bytes[0]) << 8 | UInt16(bytes[1])

@@ -27,5 +27,6 @@ public class PacketRegistry {
         handshaking.register(id: 0x00, type: HandshakeC2SPacket.self)
         
         status.register(id: 0x00, type: StatusRequestC2SPacket.self)
+        status.register(id: 0x01, type: PingRequestC2SPacket.self)
     }
 }
