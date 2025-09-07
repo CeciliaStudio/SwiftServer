@@ -22,5 +22,5 @@ public protocol Packet {
     
     /// 数据包的 Resource Location
     /// 见 https://minecraft.wiki/w/Minecraft_Wiki:Projects/wiki.vg_merge/Protocol?oldid=2789623
-    var resourceLocation: String { get }
+    var identifier: Identifier { get }
 }

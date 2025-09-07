@@ -87,6 +87,17 @@ public class PacketByteBuffer {
         return writeBytes(data: bytes)
     }
     
+    public func readULong() -> UInt64 {
+        return readBytesAsData(8).withUnsafeBytes { UInt64(bigEndian: $0.load(as: UInt64.self)) }
+    }
+    
+    @discardableResult
+    public func writeULong(_ value: UInt64) -> PacketByteBuffer {
+        var value = value.bigEndian
+        let bytes = withUnsafeBytes(of: &value) { Data($0) }
+        return writeBytes(data: bytes)
+    }
+    
     public func readShort() -> Int16 {
         let bytes = readBytes(2)
         let value = UInt16(bytes[0]) << 8 | UInt16(bytes[1])
@@ -112,6 +123,30 @@ public class PacketByteBuffer {
         return withUnsafeBytes(of: v) { buffer in
             writeBytes(Array(buffer))
         }
+    }
+    
+    public func readUUID() -> UUID {
+        var highBE = readULong().bigEndian
+        var lowBE = readULong().bigEndian
+        
+        let data = withUnsafeBytes(of: &highBE) { Data($0) } + withUnsafeBytes(of: &lowBE) { Data($0) }
+        return UUID(uuid: (
+            data[0], data[1], data[2], data[3],
+            data[4], data[5], data[6], data[7],
+            data[8], data[9], data[10], data[11],
+            data[12], data[13], data[14], data[15]
+        ))
+    }
+    
+    @discardableResult
+    public func writeUUID(_ uuid: UUID) -> PacketByteBuffer {
+        let bytes = uuid.uuid
+        let high = (UInt64(bytes.0) << 56) | (UInt64(bytes.1) << 48) | (UInt64(bytes.2) << 40) | (UInt64(bytes.3) << 32) |
+        (UInt64(bytes.4) << 24) | (UInt64(bytes.5) << 16) | (UInt64(bytes.6) << 8)  | UInt64(bytes.7)
+        let low  = (UInt64(bytes.8) << 56) | (UInt64(bytes.9) << 48) | (UInt64(bytes.10) << 40) | (UInt64(bytes.11) << 32) |
+        (UInt64(bytes.12) << 24) | (UInt64(bytes.13) << 16) | (UInt64(bytes.14) << 8)  | UInt64(bytes.15)
+        writeULong(high)
+        return writeULong(low)
     }
     
     /// 按 VarInt 格式读取一个 Int

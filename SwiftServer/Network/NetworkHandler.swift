@@ -7,6 +7,7 @@
 
 import Foundation
 import Network
+import CryptoKit
 
 public class NetworkHandler: Identifiable, Hashable, Equatable {
     public let id: UUID = .init()
@@ -37,14 +38,14 @@ public class NetworkHandler: Identifiable, Hashable, Equatable {
         case let packet as HandshakeC2SPacket: onHandshake(packet: packet)
         case _ as StatusRequestC2SPacket: onStatusRequest()
         case let packet as PingRequestC2SPacket: onPing(packet: packet)
+        case let packet as LoginStartC2SPacket: onLoginStart(packet: packet)
         default:
-            warn("\(packet.resourceLocation) 没有对应的处理逻辑，已忽略")
+            warn("\(packet.identifier) 没有对应的处理逻辑，已忽略")
         }
     }
     
     // MARK: - Handshake
     private func onHandshake(packet: HandshakeC2SPacket) {
-        debug("接收到握手包 \(packet.protocolVersion)，next state: \(packet.nextState)")
         switch packet.nextState {
         case 1:
             state = .status
@@ -63,6 +64,24 @@ public class NetworkHandler: Identifiable, Hashable, Equatable {
     private func onPing(packet: PingRequestC2SPacket) {
         Task {
             try await self.sendPacket(packet)
+        }
+    }
+    
+    // MARK: - Login
+    private func onLoginStart(packet: LoginStartC2SPacket) {
+        debug("\(packet.name) 正在登录")
+        let hash = Insecure.MD5.hash(data: Array("OfflinePlayer:\(packet.name)".utf8))
+        var hashBytes = Array(hash)
+        hashBytes[6] = (hashBytes[6] & 0x0F) | 0x30
+        hashBytes[8] = (hashBytes[8] & 0x3F) | 0x80
+        let uuid = UUID(uuid: (
+            hashBytes[0], hashBytes[1], hashBytes[2], hashBytes[3],
+            hashBytes[4], hashBytes[5], hashBytes[6], hashBytes[7],
+            hashBytes[8], hashBytes[9], hashBytes[10], hashBytes[11],
+            hashBytes[12], hashBytes[13], hashBytes[14], hashBytes[15]
+        ))
+        Task {
+            try await self.sendPacket(LoginSuccessS2CPacket(uuid: uuid, name: packet.name))
         }
     }
     

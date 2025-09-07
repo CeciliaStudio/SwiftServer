@@ -9,7 +9,7 @@ import Foundation
 
 public class HandshakeC2SPacket: Packet {
     public let id: Int = 0x00
-    public let resourceLocation: String = "intention"
+    public let identifier: Identifier = .init("intention")
     
     public let protocolVersion: Int
     public let address: String

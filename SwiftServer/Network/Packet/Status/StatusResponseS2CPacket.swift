@@ -10,7 +10,7 @@ import SwiftyJSON
 
 public class StatusResponseS2CPacket: Packet {
     public let id: Int = 0
-    public let resourceLocation: String = "status_response"
+    public let identifier: Identifier = .init("status_response")
     public let players: [PlayerProfile]
     
     public func encode(to buf: PacketByteBuffer) {

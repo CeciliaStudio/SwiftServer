@@ -9,7 +9,7 @@ import Foundation
 
 public class PingRequestC2SPacket: Packet {
     public let id: Int = 0x01
-    public let resourceLocation: String = "ping_request"
+    public let identifier: Identifier = .init("ping_request")
     public let timestamp: Int64
     
     public init(timestamp: Int64) {
