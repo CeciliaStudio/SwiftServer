@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		EC0518082E6D91A1001D87B6 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = EC0518072E6D91A1001D87B6 /* SwiftyJSON */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		EC0517DD2E6D6E40001D87B6 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -35,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC0518082E6D91A1001D87B6 /* SwiftyJSON in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +82,7 @@
 			);
 			name = SwiftServer;
 			packageProductDependencies = (
+				EC0518072E6D91A1001D87B6 /* SwiftyJSON */,
 			);
 			productName = SwiftServer;
 			productReference = EC0517DF2E6D6E40001D87B6 /* SwiftServer */;
@@ -106,6 +112,9 @@
 			);
 			mainGroup = EC0517D62E6D6E40001D87B6;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				EC0518062E6D91A1001D87B6 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = EC0517E02E6D6E40001D87B6 /* Products */;
 			projectDirPath = "";
@@ -285,6 +294,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		EC0518062E6D91A1001D87B6 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		EC0518072E6D91A1001D87B6 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EC0518062E6D91A1001D87B6 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = EC0517D72E6D6E40001D87B6 /* Project object */;
 }

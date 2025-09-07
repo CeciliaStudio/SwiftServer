@@ -8,12 +8,17 @@
 import Foundation
 import Network
 
-public class NetworkHandler {
-    private let connection: NWConnection
+public class NetworkHandler: Identifiable, Hashable, Equatable {
+    public let id: UUID = .init()
+    public let connection: NWConnection
     private var state: State = .handshaking
     
     public init(connection: NWConnection) {
         self.connection = connection
+    }
+    
+    deinit {
+        debug("NetworkHandler 被释放")
     }
     
     /// 发送一个数据包
@@ -42,7 +47,11 @@ public class NetworkHandler {
     private func onHandshake(packet: HandshakeC2SPacket) {
         log("接收到握手包 \(packet.protocolVersion)，next state: \(packet.nextState)")
         switch packet.nextState {
-        case 1: state = .status
+        case 1:
+            state = .status
+            Task {
+                try await self.sendPacket(StatusResponseS2CPacket(players: []))
+            }
         case 2: state = .login
         default: break
         }
@@ -63,7 +72,21 @@ public class NetworkHandler {
         }
     }
     
-    func receiveData(_ data: Data) {
+    func startReceive() {
+        connection.receive(minimumIncompleteLength: 1, maximumLength: 4096) { data, context, isComplete, error in
+            if let data = data, !data.isEmpty {
+                self.receiveData(data)
+            }
+            if isComplete {
+                SwiftServer.shared.removeNetworkHandler(id: self.id)
+                self.connection.cancel()
+            } else {
+                self.startReceive()
+            }
+        }
+    }
+    
+    private func receiveData(_ data: Data) {
         let buf = PacketByteBuffer(data: data)
         let _ = buf.readVarInt()
         let id = buf.readVarInt()
@@ -95,5 +118,13 @@ public class NetworkHandler {
             case .play: .play
             }
         }
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    public static func == (lhs: NetworkHandler, rhs: NetworkHandler) -> Bool {
+        lhs.id == rhs.id
     }
 }

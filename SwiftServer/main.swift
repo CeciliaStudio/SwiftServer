@@ -8,17 +8,39 @@
 import Foundation
 import Network
 
-PacketRegistry.registerPackets()
-
-let listener = try NWListener(using: .tcp, on: 22597)
-listener.newConnectionHandler = { connection in
-    connection.start(queue: .main)
-    let handler = NetworkHandler(connection: connection)
-    connection.receive(minimumIncompleteLength: 1, maximumLength: 4096) { data, context, isComplete, error in
-        if let data = data, !data.isEmpty {
-            handler.receiveData(data)
+public class SwiftServer {
+    public static let shared: SwiftServer = SwiftServer()
+    private var networkHandlers: [NetworkHandler] = []
+    
+    public func start() throws {
+        PacketRegistry.registerPackets()
+        
+        let listener = try NWListener(using: .tcp, on: 22597)
+        listener.newConnectionHandler = { connection in
+            connection.start(queue: .main)
+            let handler = NetworkHandler(connection: connection)
+            self.networkHandlers.append(handler)
+            connection.stateUpdateHandler = { state in
+                switch state {
+                case .cancelled:
+                    self.removeNetworkHandler(id: handler.id)
+                case .failed(let error), .waiting(let error):
+                    err("连接失败: \(error.localizedDescription)")
+                    self.removeNetworkHandler(id: handler.id)
+                case .ready:
+                    handler.startReceive()
+                default:
+                    print(state)
+                }
+            }
         }
+        listener.start(queue: .main)
+    }
+    
+    public func removeNetworkHandler(id: UUID) {
+        networkHandlers.removeAll { $0.id == id }
     }
 }
-listener.start(queue: .main)
+
+try SwiftServer.shared.start()
 dispatchMain()

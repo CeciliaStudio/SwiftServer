@@ -25,5 +25,7 @@ public class PacketRegistry {
     
     public static func registerPackets() {
         handshaking.register(id: 0x00, type: HandshakeC2SPacket.self)
+        
+        status.register(id: 0x00, type: StatusRequestC2SPacket.self)
     }
 }
