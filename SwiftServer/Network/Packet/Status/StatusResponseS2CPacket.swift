@@ -24,8 +24,8 @@ public class StatusResponseS2CPacket: Packet {
             ],
             "players": [
                 "max": 114514,
-                "online": players.count,
-                "sample": players
+                "online": -1,
+                "sample": players.map { ["id": $0.id, "name": $0.name] }
             ],
             "description": [
                 "text": motd

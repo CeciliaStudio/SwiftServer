@@ -44,7 +44,12 @@ public class DefaultNetworkHandler: NetworkHandler {
                     versionName: ServerMetadata.shared.version,
                     protocolVersion: ServerMetadata.shared.protocolVersion,
                     motd: "§6SwiftServer Connector§7\n您的协议版本为：§\(protocolVersion >= ServerMetadata.shared.protocolVersion ? "a" : "c")\(protocolVersion)",
-                    players: []
+                    players: [
+                        .init(id: "01234567-0123-0123-0123-0123456789ab", name: "§8====================="),
+                        .init(id: "01234567-0123-0123-0123-0123456789ab", name: "§7Swift Server a0.1"),
+                        .init(id: "01234567-0123-0123-0123-0123456789ab", name: "§7服务端标准为 §b1.21 (767) §a[+]"),
+                        .init(id: "01234567-0123-0123-0123-0123456789ab", name: "§8=====================")
+                    ]
                 )
             )
         }
