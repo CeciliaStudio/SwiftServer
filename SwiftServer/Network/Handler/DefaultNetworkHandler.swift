@@ -10,6 +10,7 @@ import CryptoKit
 
 public class DefaultNetworkHandler: NetworkHandler {
     public var connection: Connection!
+    private var protocolVersion: Int = -1
     
     public func receivePacket(packet: any Packet) {
         switch packet {
@@ -28,6 +29,7 @@ public class DefaultNetworkHandler: NetworkHandler {
     }
     
     private func onHandshake(packet: HandshakeC2SPacket) {
+        protocolVersion = packet.protocolVersion
         switch packet.nextState {
         case 1: connection.switchState(.status)
         case 2: connection.switchState(.login)
@@ -37,7 +39,14 @@ public class DefaultNetworkHandler: NetworkHandler {
     
     private func onStatusRequest() {
         Task {
-            try await self.sendPacket(StatusResponseS2CPacket(players: []))
+            try await self.sendPacket(
+                StatusResponseS2CPacket(
+                    versionName: ServerMetadata.shared.version,
+                    protocolVersion: ServerMetadata.shared.protocolVersion,
+                    motd: "§6SwiftServer Connector§7\n您的协议版本为：§\(protocolVersion >= ServerMetadata.shared.protocolVersion ? "a" : "c")\(protocolVersion)",
+                    players: []
+                )
+            )
         }
     }
     
