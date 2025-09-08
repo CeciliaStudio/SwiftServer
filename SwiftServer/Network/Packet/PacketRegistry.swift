@@ -11,6 +11,7 @@ public class PacketRegistry {
     public static let handshaking = PacketRegistry()
     public static let status = PacketRegistry()
     public static let login = PacketRegistry()
+    public static let configuration = PacketRegistry()
     public static let play = PacketRegistry()
     
     private var packetMap: [Int : any Packet.Type] = [:]
@@ -30,5 +31,9 @@ public class PacketRegistry {
         status.register(id: 0x01, type: PingRequestC2SPacket.self)
         
         login.register(id: 0x00, type: LoginStartC2SPacket.self)
+        login.register(id: 0x03, type: LoginAcknowlegedC2SPacket.self)
+        
+        configuration.register(id: 0x00, type: ClientInformationC2SPacket.self)
+        configuration.register(id: 0x03, type: FinishConfigurationPacket.self)
     }
 }

@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		EC0518082E6D91A1001D87B6 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = EC0518072E6D91A1001D87B6 /* SwiftyJSON */; };
+		ECD55D582E6E54B400B5895D /* MinecraftNBT in Frameworks */ = {isa = PBXBuildFile; productRef = ECD55D572E6E54B400B5895D /* MinecraftNBT */; };
+		ECD55D662E6E563500B5895D /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = ECD55D652E6E563500B5895D /* SwiftyJSON */; };
+		ECD55D682E6E563500B5895D /* MinecraftNBT in Frameworks */ = {isa = PBXBuildFile; productRef = ECD55D672E6E563500B5895D /* MinecraftNBT */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,12 +27,18 @@
 
 /* Begin PBXFileReference section */
 		EC0517DF2E6D6E40001D87B6 /* SwiftServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SwiftServer; sourceTree = BUILT_PRODUCTS_DIR; };
+		ECD55D5D2E6E562900B5895D /* SwiftServerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftServerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		EC0517E12E6D6E40001D87B6 /* SwiftServer */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = SwiftServer;
+			sourceTree = "<group>";
+		};
+		ECD55D5E2E6E562900B5895D /* SwiftServerTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SwiftServerTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -40,6 +49,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC0518082E6D91A1001D87B6 /* SwiftyJSON in Frameworks */,
+				ECD55D582E6E54B400B5895D /* MinecraftNBT in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ECD55D5A2E6E562900B5895D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ECD55D662E6E563500B5895D /* SwiftyJSON in Frameworks */,
+				ECD55D682E6E563500B5895D /* MinecraftNBT in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,6 +69,8 @@
 			isa = PBXGroup;
 			children = (
 				EC0517E12E6D6E40001D87B6 /* SwiftServer */,
+				ECD55D5E2E6E562900B5895D /* SwiftServerTests */,
+				ECD55D642E6E563500B5895D /* Frameworks */,
 				EC0517E02E6D6E40001D87B6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -58,8 +79,16 @@
 			isa = PBXGroup;
 			children = (
 				EC0517DF2E6D6E40001D87B6 /* SwiftServer */,
+				ECD55D5D2E6E562900B5895D /* SwiftServerTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		ECD55D642E6E563500B5895D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,10 +112,35 @@
 			name = SwiftServer;
 			packageProductDependencies = (
 				EC0518072E6D91A1001D87B6 /* SwiftyJSON */,
+				ECD55D572E6E54B400B5895D /* MinecraftNBT */,
 			);
 			productName = SwiftServer;
 			productReference = EC0517DF2E6D6E40001D87B6 /* SwiftServer */;
 			productType = "com.apple.product-type.tool";
+		};
+		ECD55D5C2E6E562900B5895D /* SwiftServerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ECD55D612E6E562900B5895D /* Build configuration list for PBXNativeTarget "SwiftServerTests" */;
+			buildPhases = (
+				ECD55D592E6E562900B5895D /* Sources */,
+				ECD55D5A2E6E562900B5895D /* Frameworks */,
+				ECD55D5B2E6E562900B5895D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				ECD55D5E2E6E562900B5895D /* SwiftServerTests */,
+			);
+			name = SwiftServerTests;
+			packageProductDependencies = (
+				ECD55D652E6E563500B5895D /* SwiftyJSON */,
+				ECD55D672E6E563500B5895D /* MinecraftNBT */,
+			);
+			productName = SwiftServerTests;
+			productReference = ECD55D5D2E6E562900B5895D /* SwiftServerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -99,6 +153,9 @@
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
 					EC0517DE2E6D6E40001D87B6 = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					ECD55D5C2E6E562900B5895D = {
 						CreatedOnToolsVersion = 16.4;
 					};
 				};
@@ -114,6 +171,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				EC0518062E6D91A1001D87B6 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				ECD55D562E6E54B400B5895D /* XCRemoteSwiftPackageReference "swift-nbt" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = EC0517E02E6D6E40001D87B6 /* Products */;
@@ -121,12 +179,30 @@
 			projectRoot = "";
 			targets = (
 				EC0517DE2E6D6E40001D87B6 /* SwiftServer */,
+				ECD55D5C2E6E562900B5895D /* SwiftServerTests */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		ECD55D5B2E6E562900B5895D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		EC0517DB2E6D6E40001D87B6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ECD55D592E6E562900B5895D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -272,6 +348,34 @@
 			};
 			name = Release;
 		};
+		ECD55D622E6E562900B5895D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.ceciliastudio.SwiftServerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		ECD55D632E6E562900B5895D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.ceciliastudio.SwiftServerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -293,6 +397,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		ECD55D612E6E562900B5895D /* Build configuration list for PBXNativeTarget "SwiftServerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ECD55D622E6E562900B5895D /* Debug */,
+				ECD55D632E6E562900B5895D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -304,6 +417,14 @@
 				minimumVersion = 5.0.2;
 			};
 		};
+		ECD55D562E6E54B400B5895D /* XCRemoteSwiftPackageReference "swift-nbt" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ezfe/swift-nbt";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -311,6 +432,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EC0518062E6D91A1001D87B6 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
 			productName = SwiftyJSON;
+		};
+		ECD55D572E6E54B400B5895D /* MinecraftNBT */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ECD55D562E6E54B400B5895D /* XCRemoteSwiftPackageReference "swift-nbt" */;
+			productName = MinecraftNBT;
+		};
+		ECD55D652E6E563500B5895D /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EC0518062E6D91A1001D87B6 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+		ECD55D672E6E563500B5895D /* MinecraftNBT */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ECD55D562E6E54B400B5895D /* XCRemoteSwiftPackageReference "swift-nbt" */;
+			productName = MinecraftNBT;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

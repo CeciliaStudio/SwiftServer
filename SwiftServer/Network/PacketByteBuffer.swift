@@ -65,6 +65,15 @@ public class PacketByteBuffer {
         return self
     }
     
+    public func readBool() -> Bool {
+        return readByte() == 0x01 ? true : false
+    }
+    
+    @discardableResult
+    public func writeBool(_ value: Bool) -> PacketByteBuffer {
+        writeByte(value ? 0x01 : 0x00)
+    }
+    
     public func readInt() -> Int {
         return readBytesAsData(4).withUnsafeBytes { Int(UInt32(bigEndian: $0.load(as: UInt32.self))) }
     }
@@ -147,6 +156,15 @@ public class PacketByteBuffer {
         (UInt64(bytes.12) << 24) | (UInt64(bytes.13) << 16) | (UInt64(bytes.14) << 8)  | UInt64(bytes.15)
         writeULong(high)
         return writeULong(low)
+    }
+    
+    public func readIdentifier() -> Identifier {
+        return Identifier(rawValue: readString())
+    }
+    
+    @discardableResult
+    public func writeIdentifier(_ identifier: Identifier) -> PacketByteBuffer {
+        return writeString(identifier.description)
     }
     
     /// 按 VarInt 格式读取一个 Int

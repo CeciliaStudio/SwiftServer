@@ -36,9 +36,15 @@ public class NetworkHandler: Identifiable, Hashable, Equatable {
     func receivePacket(_ packet: any Packet) {
         switch packet {
         case let packet as HandshakeC2SPacket: onHandshake(packet: packet)
+        
         case _ as StatusRequestC2SPacket: onStatusRequest()
         case let packet as PingRequestC2SPacket: onPing(packet: packet)
+        
         case let packet as LoginStartC2SPacket: onLoginStart(packet: packet)
+        case _ as LoginAcknowlegedC2SPacket: onLoginAcknowleged()
+        
+        case let packet as ClientInformationC2SPacket: onClientInformation(packet: packet)
+        case _ as FinishConfigurationPacket: state = .play
         default:
             warn("\(packet.identifier) 没有对应的处理逻辑，已忽略")
         }
@@ -83,6 +89,26 @@ public class NetworkHandler: Identifiable, Hashable, Equatable {
         Task {
             try await self.sendPacket(LoginSuccessS2CPacket(uuid: uuid, name: packet.name))
         }
+    }
+    
+    private func onLoginAcknowleged() {
+        state = .configuration
+        // 发送服务端配置
+        Task {
+            try await sendPacket(BrandCustomPayloadS2CPacket(brand: "swift"))
+            try await sendPacket(ServerLinksS2CPacket(links: [
+                .init(label: .bugReport, url: "https://github.com/CeciliaStudio/SwiftServer/issues"),
+                .init(label: .status, url: "https://github.com/CeciliaStudio/SwiftServer/pulse"),
+                .init(label: .community, url: "https://github.com/CeciliaStudio/SwiftServer/graphs/community")
+            ]))
+            try await sendPacket(DisconnectS2CPacket(reason: "Playing is not implemented on this server"))
+//            try await sendPacket(FinishConfigurationPacket())
+        }
+    }
+    
+    // MARK: - Configuration
+    private func onClientInformation(packet: ClientInformationC2SPacket) {
+        
     }
     
     private func sendData(_ data: Data) async throws {
@@ -132,6 +158,9 @@ public class NetworkHandler: Identifiable, Hashable, Equatable {
         /// 状态获取阶段，传输服务器信息和计算延迟
         case status
         
+        /// 配置阶段
+        case configuration
+        
         /// 登录阶段
         case login
         
@@ -143,6 +172,7 @@ public class NetworkHandler: Identifiable, Hashable, Equatable {
             case .handshaking: .handshaking
             case .status: .status
             case .login: .login
+            case .configuration: .configuration
             case .play: .play
             }
         }
