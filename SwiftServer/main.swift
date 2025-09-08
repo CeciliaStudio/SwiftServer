@@ -10,7 +10,7 @@ import Network
 
 public class SwiftServer {
     public static let shared: SwiftServer = SwiftServer()
-    private var networkHandlers: [NetworkHandler] = []
+    private var networkHandlers: [Connection] = []
     
     public func start() throws {
         PacketRegistry.registerPackets()
@@ -18,7 +18,7 @@ public class SwiftServer {
         let listener = try NWListener(using: .tcp, on: 22597)
         listener.newConnectionHandler = { connection in
             connection.start(queue: .main)
-            let handler = NetworkHandler(connection: connection)
+            let handler = Connection(connection: connection)
             self.networkHandlers.append(handler)
             connection.stateUpdateHandler = { state in
                 switch state {
