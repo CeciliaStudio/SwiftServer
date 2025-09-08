@@ -16,11 +16,12 @@ public class DisconnectS2CPacket: Packet {
         self.reason = reason
     }
     
-    public func encode(to buf: PacketByteBuffer) {
+    public func encode(to buf: PacketByteBuffer, protocolVersion: Int) {
+        let data = reason.data(using: .utf8) ?? Data()
         buf
             .writeBytes([0x08])
-            .writeUShort(UInt16(reason.count))
-            .writeBytes(data: reason.data(using: .utf8) ?? Data())
+            .writeUShort(UInt16(data.count))
+            .writeBytes(data: data)
     }
     
     public required convenience init(from buf: PacketByteBuffer) {

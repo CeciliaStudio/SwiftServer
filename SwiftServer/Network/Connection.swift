@@ -12,6 +12,7 @@ import CryptoKit
 public class Connection: Identifiable, Hashable, Equatable {
     public let id: UUID = .init()
     public let connection: NWConnection
+    public var protocolVersion: Int = ServerMetadata.shared.protocolVersion
     private var networkHandler: NetworkHandler! = DefaultNetworkHandler()
     private var state: State = .handshaking
     
@@ -27,7 +28,7 @@ public class Connection: Identifiable, Hashable, Equatable {
         // 写入 Packet ID 与内容
         let contentBuffer = PacketByteBuffer()
         contentBuffer.writeVarInt(packet.id)
-        packet.encode(to: contentBuffer)
+        packet.encode(to: contentBuffer, protocolVersion: protocolVersion)
         // 在最前面插入长度
         let buf = PacketByteBuffer()
         buf.writeVarInt(contentBuffer.toData().count)

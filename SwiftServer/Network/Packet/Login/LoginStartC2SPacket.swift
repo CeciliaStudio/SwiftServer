@@ -19,7 +19,7 @@ public class LoginStartC2SPacket: Packet {
     }
     
     
-    public func encode(to buf: PacketByteBuffer) {
+    public func encode(to buf: PacketByteBuffer, protocolVersion: Int) {
         buf
             .writeString(name)
             .writeUUID(uuid)

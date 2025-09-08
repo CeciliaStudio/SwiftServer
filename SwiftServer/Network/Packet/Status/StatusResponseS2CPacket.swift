@@ -16,7 +16,7 @@ public class StatusResponseS2CPacket: Packet {
     public let motd: String
     public let players: [PlayerProfile]
     
-    public func encode(to buf: PacketByteBuffer) {
+    public func encode(to buf: PacketByteBuffer, protocolVersion: Int) {
         let dict = [
             "version": [
                 "name": versionName,

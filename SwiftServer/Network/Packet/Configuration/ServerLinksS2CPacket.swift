@@ -16,7 +16,7 @@ public class ServerLinksS2CPacket: Packet {
         self.links = links
     }
     
-    public func encode(to buf: PacketByteBuffer) {
+    public func encode(to buf: PacketByteBuffer, protocolVersion: Int) {
         buf.writeVarInt(links.count)
         for link in links {
             buf

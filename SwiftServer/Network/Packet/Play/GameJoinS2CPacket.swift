@@ -41,7 +41,7 @@ public class GameJoinS2CPacket: Packet {
         self.gameMode = gameMode
     }
     
-    public func encode(to buf: PacketByteBuffer) {
+    public func encode(to buf: PacketByteBuffer, protocolVersion: Int) {
         buf
             .writeInt(entityID)
             .writeBool(isHardcore)

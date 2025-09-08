@@ -15,7 +15,7 @@ public class FinishConfigurationPacket: Packet {
         
     }
     
-    public func encode(to buf: PacketByteBuffer) {
+    public func encode(to buf: PacketByteBuffer, protocolVersion: Int) {
         
     }
     

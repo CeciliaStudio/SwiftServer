@@ -10,7 +10,6 @@ import CryptoKit
 
 public class DefaultNetworkHandler: NetworkHandler {
     public var connection: Connection!
-    private var protocolVersion: Int = -1
     
     public func receivePacket(packet: any Packet) {
         switch packet {
@@ -29,7 +28,7 @@ public class DefaultNetworkHandler: NetworkHandler {
     }
     
     private func onHandshake(packet: HandshakeC2SPacket) {
-        protocolVersion = packet.protocolVersion
+        connection.protocolVersion = packet.protocolVersion
         switch packet.nextState {
         case 1: connection.switchState(.status)
         case 2: connection.switchState(.login)
@@ -38,6 +37,7 @@ public class DefaultNetworkHandler: NetworkHandler {
     }
     
     private func onStatusRequest() {
+        let protocolVersion = connection.protocolVersion
         Task {
             try await self.sendPacket(
                 StatusResponseS2CPacket(
@@ -83,12 +83,17 @@ public class DefaultNetworkHandler: NetworkHandler {
                 .init(label: .status, url: "https://github.com/CeciliaStudio/SwiftServer/pulse"),
                 .init(label: .community, url: "https://github.com/CeciliaStudio/SwiftServer/graphs/community")
             ]))
-//            try await sendPacket(DisconnectS2CPacket(reason: "Playing is not implemented on this server"))
-            try await sendPacket(FinishConfigurationPacket())
+//            try await sendPacket(FinishConfigurationPacket())
         }
     }
     
     private func onClientInformation(packet: ClientInformationC2SPacket) {
-        
+        let text = switch packet.locale.identifier {
+        case "zh_CN": "游玩功能暂未实现"
+        default: "Playing is not implemented on this server"
+        }
+        Task {
+            try await sendPacket(DisconnectS2CPacket(reason: text))
+        }
     }
 }

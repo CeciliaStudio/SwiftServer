@@ -32,7 +32,7 @@ public class HandshakeC2SPacket: Packet {
         )
     }
     
-    public func encode(to buf: PacketByteBuffer) {
+    public func encode(to buf: PacketByteBuffer, protocolVersion: Int) {
         buf
             .writeVarInt(protocolVersion)
             .writeString(address)

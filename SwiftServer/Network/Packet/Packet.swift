@@ -10,7 +10,8 @@ import Foundation
 public protocol Packet {
     /// 将数据包编码并写入到一个 PacketByteBuffer
     /// - Parameter buf: 要写入的 PacketByteBuffer
-    func encode(to buf: PacketByteBuffer)
+    /// - Parameter protocol: 当前协议版本
+    func encode(to buf: PacketByteBuffer, protocolVersion: Int)
     
     /// 从 PacketByteBuffer 读取并解码数据包
     /// - Parameter buf: 待读取的 PacketByteBuffer

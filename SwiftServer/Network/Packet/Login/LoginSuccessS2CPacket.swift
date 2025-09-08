@@ -18,12 +18,14 @@ public class LoginSuccessS2CPacket: Packet {
         self.name = name
     }
     
-    public func encode(to buf: PacketByteBuffer) {
+    public func encode(to buf: PacketByteBuffer, protocolVersion: Int) {
         buf
             .writeUUID(uuid)
             .writeString(name)
             .writeVarInt(0)
-            .writeByte(0x00)
+        if protocolVersion < 768 {
+            buf.writeByte(0x00)
+        }
     }
     
     public required convenience init(from buf: PacketByteBuffer) {

@@ -30,7 +30,7 @@ public class ClientInformationC2SPacket: Packet {
         self.allowsServerListing = allowsServerListing
     }
     
-    public func encode(to buf: PacketByteBuffer) {
+    public func encode(to buf: PacketByteBuffer, protocolVersion: Int) {
         buf
             .writeString(locale.identifier)
             .writeByte(UInt8(renderDistance))

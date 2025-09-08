@@ -11,7 +11,7 @@ public class LoginAcknowlegedC2SPacket: Packet {
     public let id: Int = 0x03
     public let identifier: Identifier = .init("login_acknowleged")
     
-    public func encode(to buf: PacketByteBuffer) {
+    public func encode(to buf: PacketByteBuffer, protocolVersion: Int) {
         
     }
     

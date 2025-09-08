@@ -16,7 +16,7 @@ public class PingRequestC2SPacket: Packet {
         self.timestamp = timestamp
     }
     
-    public func encode(to buf: PacketByteBuffer) {
+    public func encode(to buf: PacketByteBuffer, protocolVersion: Int) {
         buf.writeLong(timestamp)
     }
     

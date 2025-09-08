@@ -18,7 +18,7 @@ public class TransferS2CPacket: Packet {
         self.port = port
     }
     
-    public func encode(to buf: PacketByteBuffer) {
+    public func encode(to buf: PacketByteBuffer, protocolVersion: Int) {
         buf
             .writeString(host)
             .writeVarInt(port)

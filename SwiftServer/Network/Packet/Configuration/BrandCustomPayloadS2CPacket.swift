@@ -16,7 +16,7 @@ public class BrandCustomPayloadS2CPacket: Packet {
         self.brand = brand
     }
     
-    public func encode(to buf: PacketByteBuffer) {
+    public func encode(to buf: PacketByteBuffer, protocolVersion: Int) {
         buf
             .writeString(Identifier("brand").description)
             .writeString(brand)
